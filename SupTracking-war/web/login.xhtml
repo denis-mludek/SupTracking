@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/WEB-INF/templates/main_template.xhtml">
+
+    <ui:define name="title">Sign in</ui:define>
+    <ui:define name="content">
+        <h:form id="login_form">
+            <div class="form_element">
+                <h:outputLabel for="username">Username<span class="requis">*</span></h:outputLabel>
+                <h:inputText id="username" value="#{loginController.username}" required="true" size="16" maxlength="32" requiredMessage="This field cannot be empty." />
+                <h:message id="usernameMessage" for="username" errorClass="error" />
+            </div>
+            <div class="form_element">
+                <h:outputLabel for="password">Password<span class="requis">*</span></h:outputLabel>
+                <h:inputSecret id="password" value="#{loginController.password}" required="true" size="20" maxlength="20"  requiredMessage="This field cannot be empty." />
+                <h:message id="passwordMessage" for="password" errorClass="error" />
+            </div>
+            <div class="form_messages">
+                <h:messages globalOnly="true" infoClass="info" />
+            </div>
+            <div class="form_buttons">
+                <h:commandButton value="Signin" action="#{loginController.login}" />
+            </div>
+       </h:form>
+    </ui:define>
+</ui:composition>

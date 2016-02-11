@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:h="http://xmlns.jcp.org/jsf/html"
+   xmlns:f="http://xmlns.jcp.org/jsf/core"
+   template="/WEB-INF/templates/main_template.xhtml" >
+
+    <ui:define name="title">Manage areas</ui:define>
+    <ui:define name="content">
+        
+        <div id="toolbar">
+            <h:button id ="addArea" value="Add an area" outcome="/user/formArea">
+                <f:param name="action" value="add"/>
+            </h:button>
+        </div>
+        
+        <h2>List of my safe areas</h2>
+        
+        <h:dataTable value="#{areaController.listAreas}" var="area"
+                     id="areas"
+                     rowClasses="carTableOddRow,carTableEvenRow"
+                     columnClasses="carColumn,positionColumn,radiusColumn,startColumn,endColumn,actionColumn">
+            
+            <h:column headerClass="carColumn">    				
+                <f:facet name="header">Car</f:facet>    				
+                #{area.car.brand} - #{area.car.name}
+            </h:column>
+            <h:column headerClass="positionColumn">  
+                <f:facet name="header">Gps position</f:facet>
+                Lat : #{area.gpsPos.latitude}<br />Long : #{area.gpsPos.longitude}
+            </h:column>
+            <h:column headerClass="radiusColumn">
+                <f:facet name="header">Radius</f:facet>
+                #{area.radiusMeter} meter(s) 
+            </h:column>
+            <h:column headerClass="startColumn">
+                <f:facet name="header">Hour start</f:facet>
+                #{area.hourStart}
+            </h:column>
+            <h:column headerClass="endColumn">
+               <f:facet name="header">Hour end</f:facet>
+               #{area.hourEnd}
+            </h:column>
+            <h:column headerClass="actionColumn">
+                <f:facet name="header">Actions</f:facet>
+                <h:button value="Edit" outcome="/user/formArea">
+                    <f:param name="action" value="edit"/>
+                    <f:param name="id" value="#{area.id}"/>
+                </h:button>
+                <h:form>
+                    <h:commandButton action="#{areaController.removeArea()}" value="Delete"/>
+                </h:form>
+            </h:column>
+        </h:dataTable>             
+    </ui:define>
+</ui:composition>
+

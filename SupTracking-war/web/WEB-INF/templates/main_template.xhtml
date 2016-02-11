@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>SupTracking</title>
+        <h:outputStylesheet library="css" name="main.css" />
+    </h:head>
+    <h:body>
+        <header>
+            <div id="page_title">
+                <ui:insert name="title"></ui:insert>
+            </div>
+            <div id="header_content">
+                <h:link value="SupTracking" outcome="/index" id="site_title" />
+                <nav>
+                    <c:if test="#{loginController.loggedIn}" var="connected">
+                        <ul>
+                            <li>
+                                <h:form><h:commandLink class="" action="#{loginController.logout}">Logout</h:commandLink></h:form>
+                            </li>
+                            <li>
+                                <h:link value="My Profile" outcome="/user/myProfile" />
+                            </li>
+                            <li>
+                                <h:link value="My Invoices" outcome="/user/myInvoices" />
+                            </li>
+                            <li>
+                                <h:link value="Manage areas" outcome="/user/manageAreas" />
+                            </li>
+                            <li>
+                                <h:link value="Manage cars" outcome="/user/manageCars" />
+                            </li>
+                        </ul>
+                    </c:if>
+                    <c:if test="#{!connected}">
+                        <ul>
+                            <li>
+                                <h:link value="Login" outcome="/login" />
+                            </li>
+                            <li>
+                                <h:link value="Register" outcome="/register" />
+                            </li>
+                            <li>
+                                <h:link value="Our offer" outcome="/offer" />
+                            </li>
+                        </ul>
+                    </c:if>
+                </nav>
+            </div>
+            <div id="top_bar">
+                <div id="welcome">
+                    <c:if test="#{loginController.loggedIn}" var="connected">
+                        Welcome #{loginController.user.username} !
+                    </c:if>
+                </div> 
+                <c:if test="#{loginController.user.adminBool}" var="isAdmin">
+                    <nav id="admin_bar">
+                        <h:link value="Manage users" outcome="/admin/manageUsers" />
+                        <h:link value="See invoices" outcome="/admin/seeInvoices" /> 
+                    </nav>
+                </c:if>     
+            </div>
+        </header>
+        <main role="main">
+            <ui:insert name="content"></ui:insert>
+        </main>
+    </h:body>
+</html>
+

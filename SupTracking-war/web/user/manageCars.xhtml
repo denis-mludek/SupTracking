@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:h="http://xmlns.jcp.org/jsf/html"
+   xmlns:f="http://xmlns.jcp.org/jsf/core"
+   template="/WEB-INF/templates/main_template.xhtml" >
+
+    <ui:define name="title">Manage cars</ui:define>
+    <ui:define name="content">
+        
+        <div id="toolbar">
+            <h:button id="addCar" value="Add a car" outcome="/user/formCar">
+                <f:param name="action" value="add"/>
+            </h:button>
+        </div>
+        
+        <h2>List of my cars</h2>
+        
+        <h:dataTable value="#{carController.listCars}" var="car"
+                     id="cars"
+                     rowClasses="carTableOddRow,carTableEvenRow"
+                     columnClasses="nameColumn,brandColumn,yearColumn,currentColumn,lastColumn,actionColumn">
+            
+            <h:column headerClass="nameColumn">    				
+               <f:facet name="header">Name</f:facet>    				
+               #{car.name}
+            </h:column>
+            <h:column headerClass="brandColumn">
+               <f:facet name="header">Brand</f:facet>
+               #{car.brand}
+            </h:column>
+            <h:column headerClass="yearColumn">
+               <f:facet name="header">Year entry in service</f:facet>
+               #{car.yearEntryInService}
+            </h:column>
+            <h:column headerClass="currentColumn">
+               <f:facet name="header">Current position</f:facet>
+               Latitude : #{car.listPositions.get(car.listPositions.size()-1).latitude} / Longitude : #{car.listPositions.get(car.listPositions.size()-1).longitude}
+            </h:column>
+            <h:column headerClass="lastColumn">
+               <f:facet name="header">Last update</f:facet>
+               #{car.dateTimeLastUpdate}
+            </h:column>
+            <h:column headerClass="actionColumn">
+                <f:facet name="header">Actions</f:facet>
+                <h:button value="Edit" outcome="/user/formCar">
+                    <f:param name="action" value="edit"/>
+                    <f:param name="id" value="#{car.id}"/>
+                </h:button>
+                <h:form>
+                    <h:commandButton action="#{carController.removeCar}" value="Delete"/>
+                </h:form>
+            </h:column>
+        </h:dataTable>
+        
+        <h2>Last 10 positions of each cars</h2>
+        
+        <ui:repeat value="#{carController.listCars}" var="car"  >
+            <div class="carPositions">
+                <h4>Last positions of [ #{car.name} - #{car.brand} ]</h4>
+                <ul>
+                    <ui:repeat value="#{car.listPositions}" var="pos">
+                        <li>Latitude : #{pos.latitude} - Longitude : #{pos.longitude} </li>
+                    </ui:repeat>
+                </ul>
+            </div>
+        </ui:repeat>                
+    </ui:define>
+</ui:composition>
+

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/WEB-INF/templates/main_template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">Welcome</ui:define>
+    <ui:define name="content">
+        <c:if test="#{connected}" >
+            <h2>List of your cars</h2>
+            
+            <h:dataTable value="#{indexController.listCars}" var="car"
+                     id="listCars"
+                     rowClasses="carTableOddRow,carTableEvenRow"
+                     columnClasses="nameColumn,brandColumn,yearColumn,currentColumn,lastColumn,actionColumn">
+            
+            <h:column headerClass="nameColumn">    				
+               <f:facet name="header">Name</f:facet>    				
+               #{car.name}
+            </h:column>
+            <h:column headerClass="brandColumn">
+               <f:facet name="header">Brand</f:facet>
+               #{car.brand}
+            </h:column>
+            <h:column headerClass="yearColumn">
+               <f:facet name="header">Year entry in service</f:facet>
+               #{car.yearEntryInService}
+            </h:column>
+            <h:column headerClass="currentColumn">
+               <f:facet name="header">Current position</f:facet>
+               Lat : #{car.listPositions.get(car.listPositions.size()-1).latitude} / Long : #{car.listPositions.get(car.listPositions.size()-1).longitude}
+            </h:column>
+            <h:column headerClass="lastColumn">
+               <f:facet name="header">Last update</f:facet>
+               #{car.getDateTimeLastUpdate()}
+            </h:column>
+        </h:dataTable>
+        </c:if>
+        
+        <c:if test="#{!connected}" >
+            <h2>SupTracking</h2>
+
+            <center>You lost your car ? <br />
+            Wanna know where it is ? <br /><br />
+
+            We are THE solution ! <br /><br />
+
+            An amazing product, easy to use, efficient, for a small price. Subscribe now and start using our incredible service right now ! <br /><br />
+            <h:link outcome="/offer" value="See our offer here"/> !
+
+            <h3>By now, we already have <u>#{indexController.nbUsers} users</u> ! <br />
+                And we are tracking <u>#{indexController.nbCars} cars</u> ! Yeah, that much ! </h3></center>
+        </c:if>
+    </ui:define>
+
+</ui:composition>

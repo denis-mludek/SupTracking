@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:h="http://xmlns.jcp.org/jsf/html"
+   xmlns:f="http://xmlns.jcp.org/jsf/core"
+   template="/WEB-INF/templates/main_template.xhtml" >
+
+    <ui:define name="title">My invoices</ui:define>
+    <ui:define name="content">
+        
+        <h2>List of my invoices</h2>
+        
+        <h:dataTable value="#{loginController.user.listInvoices}" var="invoice"
+                     id="invoices"
+                     rowClasses="carTableOddRow,carTableEvenRow"
+                     columnClasses="dateColumn,amountColumn">
+            <h:column headerClass="dateColumn">
+               <f:facet name="header">Date</f:facet>
+               #{invoice.dateFromTimestamp}
+            </h:column>
+            <h:column headerClass="amountColumn">
+               <f:facet name="header">Amount</f:facet>
+               $ #{invoice.amount}
+            </h:column>        
+        </h:dataTable>    
+    </ui:define>
+</ui:composition>
+
